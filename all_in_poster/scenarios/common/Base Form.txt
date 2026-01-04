@@ -1,0 +1,96 @@
+Базовые примитивы DSL
+
+Действия (Action types)
+Навигация
+- navigate: https://example.com
+
+Ожидание
+- wait:
+    for: element
+    selector: "@composer"
+    timeout: 5000
+
+Клик
+- click:
+    selector: "@publishButton"
+
+Заполнение
+- fill:
+    selector: "@textInput"
+    value: "{{text}}"
+
+Загрузка файла
+- upload:
+    selector: "@mediaInput"
+    files: "{{media}}"
+
+
+
+Система селекторов (ключевой элемент)
+Абстрактные селекторы (ОБЯЗАТЕЛЬНО)
+selectors:
+  textInput:
+    - css: "div[contenteditable='true']"
+    - xpath: "//div[@role='textbox']"
+    - text: "What's on your mind"
+
+  publishButton:
+    - text: "Post"
+    - css: "div[aria-label='Post']"
+
+
+Использование:
+selector: "@textInput"
+
+
+
+Декларативные actions (макро-уровень)
+ Action = логический шаг
+actions:
+  openComposer:
+    steps:
+      - click: { selector: "@createPostButton" }
+      - wait: { for: element, selector: "@textInput" }
+
+  fillText:
+    steps:
+      - fill:
+          selector: "@textInput"
+          value: "{{text}}"
+
+  attachMedia:
+    when: "{{media != null}}"
+    steps:
+      - upload:
+          selector: "@mediaInput"
+          files: "{{media}}"
+
+  publish:
+    steps:
+      - click: { selector: "@publishButton" }
+      - wait: { for: navigation }
+
+
+
+7. Переменные и шаблоны
+
+Поддержка через:
+{{var}}
+Простые выражения
+Контекст выполнения
+
+Пример:
+variables:
+  hashtags: "{{post.tags | join(' ')}}"
+
+Ошибки, ретраи, условия
+Retry на уровне шага
+- click:
+    selector: "@publishButton"
+    retry: 3
+
+Условное выполнение
+- when: "{{media != null}}"
+  upload:
+    selector: "@mediaInput"
+    files: "{{media}}"

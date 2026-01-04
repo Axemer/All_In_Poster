@@ -1,0 +1,17 @@
+service: x
+scenario: tweet
+
+selectors:
+  tweetInput:
+    - css: "div[data-testid='tweetTextarea_0']"
+
+  tweetButton:
+    - css: "div[data-testid='tweetButton']"
+
+steps:
+  - navigate: https://x.com/home
+  - fill:
+      selector: "@tweetInput"
+      value: "{{post.text}} {{post.tags | join(' ')}}"
+  - click:
+      selector: "@tweetButton"

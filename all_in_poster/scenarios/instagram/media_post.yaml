@@ -1,0 +1,26 @@
+service: instagram
+scenario: post_with_media
+
+selectors:
+  newPost:
+    - css: "svg[aria-label='New post']"
+
+  fileInput:
+    - css: "input[type='file']"
+
+  caption:
+    - css: "textarea"
+
+  share:
+    - text: "Share"
+
+steps:
+  - navigate: https://www.instagram.com
+  - click: { selector: "@newPost" }
+  - upload:
+      selector: "@fileInput"
+      files: "{{post.media}}"
+  - fill:
+      selector: "@caption"
+      value: "{{post.text}}"
+  - click: { selector: "@share" }

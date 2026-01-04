@@ -1,0 +1,28 @@
+version: 1
+service: facebook
+scenario: post
+
+selectors:
+  createPostButton:
+    - text: "Create post"
+
+  textInput:
+    - css: "div[contenteditable='true']"
+
+  publishButton:
+    - text: "Post"
+
+actions:
+  openComposer:
+    steps:
+      - click: { selector: "@createPostButton" }
+      - wait: { for: element, selector: "@textInput" }
+
+steps:
+  - navigate: https://www.facebook.com
+  - action: openComposer
+  - fill:
+      selector: "@textInput"
+      value: "{{post.text}}"
+  - click:
+      selector: "@publishButton"
