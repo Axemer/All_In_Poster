@@ -2,13 +2,14 @@
 name = "all_in_poster"
 version = "0.1.0"
 description = "All In Poster"
-authors = ["You"]
+authors = ["Axemer"]
 license = ""
 repository = ""
 default-run = "all_in_poster"
 edition = "2021"
 
 [lib]
+name = "all_in_poster_lib" 
 crate-type = ["cdylib", "rlib"]
 path = "src/lib.rs"
 
